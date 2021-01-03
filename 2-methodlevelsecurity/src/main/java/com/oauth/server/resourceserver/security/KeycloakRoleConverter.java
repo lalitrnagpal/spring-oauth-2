@@ -25,7 +25,7 @@ public class KeycloakRoleConverter implements Converter<Jwt, Collection<GrantedA
 		
 		Collection<GrantedAuthority> returnValue = ((List<String>)realmAccess.get("roles"))
 				.stream()
-				//.map(roleName -> "ROLE_" + roleName)
+				.map(roleName -> "ROLE_" + roleName)
 				.map(SimpleGrantedAuthority::new)
 				.collect(Collectors.toList());
 		
