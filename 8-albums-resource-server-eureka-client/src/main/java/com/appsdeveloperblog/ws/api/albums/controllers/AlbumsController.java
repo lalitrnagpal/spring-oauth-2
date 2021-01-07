@@ -9,17 +9,18 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.appsdeveloperblog.ws.api.albums.response.AlbumRest;
 
 @Controller
-@RequestMapping("/albums")
+@RequestMapping
 public class AlbumsController {
     
-    @GetMapping
-    public List<AlbumRest> getAlbums() { 
+    @GetMapping("/albums")
+    public List<AlbumRest> getAlbums(Model model) { 
         
         AlbumRest album1 = new AlbumRest();
         album1.setAlbumId("albumIdHere");

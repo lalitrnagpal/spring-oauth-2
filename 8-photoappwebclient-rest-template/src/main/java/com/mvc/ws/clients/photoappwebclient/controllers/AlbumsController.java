@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.codec.Base64;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -44,16 +45,18 @@ public class AlbumsController {
 		System.out.println("getAlbums called ");
 		
 		Authentication authentication =  SecurityContextHolder.getContext().getAuthentication();
+		System.out.println("Authentication " + authentication.getName());
+		
 		OAuth2AuthenticationToken oauthToken = (OAuth2AuthenticationToken) authentication;
+		System.out.println("oauthToken " + oauthToken.getName() +" oauthToken.getAuthorizedClientRegistrationId() " + oauthToken.getAuthorizedClientRegistrationId());
 		
 		OAuth2AuthorizedClient oauth2Client = oauth2ClientService.loadAuthorizedClient(oauthToken.getAuthorizedClientRegistrationId(), 
 				oauthToken.getName());
+		System.out.println("oauth2Client " + oauth2Client);
 		
 		String jwtAccessToken = oauth2Client.getAccessToken().getTokenValue();
 		System.out.println("jwtAccessToken = " + jwtAccessToken);
 		
-		
-		System.out.println("Principal = " + principal);
 		
 		OidcIdToken idToken = principal.getIdToken();
 		String idTokenValue = idToken.getTokenValue();
@@ -68,7 +71,7 @@ public class AlbumsController {
 		ResponseEntity<List<AlbumRest>> responseEntity =  restTemplate.exchange(url, HttpMethod.GET, entity, new ParameterizedTypeReference<List<AlbumRest>>() {});
  
 		List<AlbumRest> albums = responseEntity.getBody();
-		
+//		
 //		AlbumRest album = new AlbumRest();
 //		album.setAlbumId("albumOne");
 //		album.setAlbumTitle("Album one title");
@@ -78,9 +81,8 @@ public class AlbumsController {
 //		album2.setAlbumId("albumTwo");
 //		album2.setAlbumTitle("Album two title");
 //		album2.setAlbumUrl("http://localhost:8082/albums/2");
-// 
+ 
         model.addAttribute("albums", albums);
-		
 		
 		return "albums";
 	}

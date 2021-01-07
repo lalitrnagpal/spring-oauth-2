@@ -17,4 +17,5 @@ public class PhotoAppWebClientApplication {
 		return new RestTemplate();
 	}
 
+
 }
