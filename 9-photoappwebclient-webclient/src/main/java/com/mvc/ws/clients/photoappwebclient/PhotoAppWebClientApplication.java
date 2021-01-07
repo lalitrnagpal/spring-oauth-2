@@ -25,6 +25,7 @@ public class PhotoAppWebClientApplication {
 	public WebClient webClient(ClientRegistrationRepository clientRegistrationRepository, OAuth2AuthorizedClientRepository oAuth2AuthorizedClientRepository) {
 		ServletOAuth2AuthorizedClientExchangeFilterFunction oAuth2 = new ServletOAuth2AuthorizedClientExchangeFilterFunction(clientRegistrationRepository, oAuth2AuthorizedClientRepository);
 		oAuth2.setDefaultOAuth2AuthorizedClient(true);
+		oAuth2.setDefaultClientRegistrationId("mywebclient");
 		return WebClient.builder().apply(oAuth2.oauth2Configuration()).build();
 	}
 
